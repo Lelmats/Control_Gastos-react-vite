@@ -3,13 +3,15 @@ import NuevoPresupuesto from "./NuevoPresupuesto";
 import PropTypes from 'prop-types';
 
 Header.propTypes = {
+    setGastos: PropTypes.any,
+    gastos: PropTypes.any,
     presupuesto: PropTypes.any,
     setPresupuesto: PropTypes.any,
     isValidPresupuesto: PropTypes.any,
     setIsValidPresupuesto: PropTypes.any,
   };
 
-export default function Header({presupuesto, setPresupuesto, isValidPresupuesto, setIsValidPresupuesto}) {
+export default function Header({setGastos, gastos, presupuesto, setPresupuesto, isValidPresupuesto, setIsValidPresupuesto}) {
   return (
     <header>
         <h1>
@@ -17,7 +19,11 @@ export default function Header({presupuesto, setPresupuesto, isValidPresupuesto,
         </h1>
         {isValidPresupuesto ? (
             <ControlPresupuesto
+            setGastos = {setGastos}
+            gastos = {gastos}
             presupuesto = {presupuesto}
+            setPresupuesto={setPresupuesto}
+            setIsValidPresupuesto={setIsValidPresupuesto}
             />
         ) : (
             <NuevoPresupuesto

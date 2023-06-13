@@ -1,22 +1,35 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import CerrarBtn from '../../public/cerrar.svg'
 import Mensaje from './Mensaje'
-import { generarId } from '../helpers'
 
-function Modal({setModal, animarModal, setAnimarModal, guardarGasto}) {
+function Modal({setModal, animarModal, setAnimarModal, guardarGasto, gastoEditar, setGastoEditar}) {
     const [mensaje, setMensaje] = useState("")
     const [nombre, setNombre] = useState("")
     const [cantidad, setCantidad] = useState(0)
     const [categoria, setCategoria] = useState("")
+    const [fecha, setFecha] = useState("")
+    const [id, setId] = useState("")
+
+    useEffect(() => {
+        if (Object.keys(gastoEditar).length > 0) {
+            setNombre(gastoEditar.nombre)
+            setCantidad(gastoEditar.cantidad)
+            setCategoria(gastoEditar.categoria)
+            setFecha(gastoEditar.fecha)
+            setId(gastoEditar.id)
+        }
+    },[])
 
     const handleCerrarModal = () => {
         setAnimarModal(false)
-
+        setGastoEditar({})
+        
         setTimeout(() =>{
             setModal(false) 
         }, 500)
     }
+
     const handleSubmit = e => {
         e.preventDefault();
 
@@ -29,7 +42,7 @@ function Modal({setModal, animarModal, setAnimarModal, guardarGasto}) {
             return;
         }
         handleCerrarModal();
-        guardarGasto({nombre, cantidad, categoria});
+        guardarGasto({nombre, cantidad, categoria, id, fecha});
     }
 
   return (
@@ -46,7 +59,7 @@ function Modal({setModal, animarModal, setAnimarModal, guardarGasto}) {
         onSubmit={handleSubmit}
         className={`formulario ${animarModal ? 'animar' : 'cerrar'}`}
         >
-            <legend>Nuevo Gasto</legend>
+            <legend>{gastoEditar.nombre ? 'Editar Gasto' : 'Nuevo Gasto'}</legend>
             {mensaje && <Mensaje tipo="error">{mensaje}</Mensaje>}
             <div className='campo'>
                 <label htmlFor="nombre">Nombre Gasto</label>
@@ -67,7 +80,7 @@ function Modal({setModal, animarModal, setAnimarModal, guardarGasto}) {
                 type="number" 
                 placeholder='Añade la cantidad de gastos'
                 value={cantidad}
-                onChange={e => setCantidad(e.target.value)}
+                onChange={e => setCantidad(Number(e.target.value))}
                 />
             </div>
             <div className='campo'>
@@ -92,7 +105,7 @@ function Modal({setModal, animarModal, setAnimarModal, guardarGasto}) {
             </div>
             <input 
             type="submit" 
-            value="Añadir Gasto"
+            value={gastoEditar.nombre ? 'Actualizar Gasto' : 'Añadir Gasto'}
             
             />
         </form>
@@ -105,6 +118,8 @@ Modal.propTypes = {
     animarModal: PropTypes.any,
     setAnimarModal: PropTypes.any,
     guardarGasto: PropTypes.any,
+    gastoEditar: PropTypes.any,
+    setGastoEditar: PropTypes.any,
 }
 
 export default Modal

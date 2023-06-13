@@ -33,13 +33,16 @@ export default function NuevoPresupuesto({presupuesto, setPresupuesto, setIsVali
                 <input
                 className="nuevo-presupuesto"
                 type="number"
-                placeholder="Añade presupuesto"
+                placeholder="1000"
                 value={presupuesto}
-                onChange={(e) => setPresupuesto(Number(e.target.value))}
+                onChange={e => setPresupuesto(Number(e.target.value))}
                 />
             </div>
             
-            <input type="submit" value="Añadir" />
+            <input 
+            type="submit" 
+            value="Añadir"
+            />
             {mensaje && <Mensaje tipo="error">{mensaje}</Mensaje>}
         </form>
     </div>
