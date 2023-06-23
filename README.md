@@ -1,4 +1,4 @@
-# Control_Gastos-react-vite
+# Control_Expenses-react-vite
 
 ## Index / Budget
 ![alt text](public/Control_Gastos_budget.png)
